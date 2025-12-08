@@ -8,7 +8,7 @@
     특징:
         - TextMeshProUGUI를 직접 상속하지 않고 컴포넌트로 분리 (유지보수 및 확장성 향상)
         - OnEnable 시 자동으로 현재 언어로 동기화
-        - CDGlobalLocalizingManager.OnLanguageChanged 이벤트를 통해 자동 업데이트
+        - CDLocalizingManager.OnLanguageChanged 이벤트를 통해 자동 업데이트
 
     Todo:
         1. key를 문자열로 입력받기 때문에, 오타 발생 시 치명적 → Enum 또는 ScriptableObject 기반 키 선택 구조로 개선 필요.
@@ -30,7 +30,7 @@ namespace CD
         private TextMeshProUGUI text;
         public string Text => text.text;
 
-        private CDGlobalLocalizingSystem localizingMgr;
+        private CDLocalizingManager localizingMgr;
 
         private void Awake()
         {
@@ -42,7 +42,7 @@ namespace CD
             if (localizingMgr != null)
                 return;
 
-            localizingMgr = CDGlobalLocalizingSystem.Instance;
+            localizingMgr = CDLocalizingManager.Instance;
         }
         private void OnEnable()
         {
