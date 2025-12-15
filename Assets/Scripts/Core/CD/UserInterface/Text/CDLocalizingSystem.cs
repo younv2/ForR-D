@@ -1,3 +1,12 @@
+/*
+    CDLocalizingSytem v0.1
+
+    작성 이유:
+        - 순수 로직(System)과 Unity 진입점(Manager)을 분리해 테스트/확장이 용이하도록 개선.
+
+    Todo:
+        1. 구글 스프레드시트 및 JSON 연동 기능 추가.
+*/
 using System.Collections.Generic;
 using UnityEngine;
 

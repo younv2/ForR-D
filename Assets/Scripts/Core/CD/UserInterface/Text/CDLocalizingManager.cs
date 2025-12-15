@@ -6,6 +6,7 @@
 */
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace CD
@@ -42,22 +43,34 @@ namespace CD
             ApplyLanguageInternal(lang);
             OnLanguageChanged?.Invoke(CurLanguage);
         }
-
-        public string GetText(string key)
+        public string GetText(string _key, params object[] _params)
         {
             if (curLanguageTable == null)
-                return $"[NO_TABLE::{key}]";
-
-            return curLanguageTable.TryGetValue(key, out var value)
-                ? value
-                : $"[MISSING_KEY::{key}]";
+                return $"[NO_TABLE::{_key}]";
+            var text = curLanguageTable.TryGetValue(_key, out var value) ? value : $"[MISSING_KEY::{_key}]";
+            text = string.Format(text, _params);
+            return text;
         }
 
-        private void ApplyLanguageInternal(SystemLanguage lang)
+        private void ApplyLanguageInternal(SystemLanguage _lang)
         {
-            CurLanguage = lang;
-            curLanguageTable = languageTables[lang];
+            CurLanguage = _lang;
+            curLanguageTable = languageTables[_lang];
             Debug.Log($"[Localization] Language Applied: {CurLanguage}");
+        }
+        //TODO : 폰트 캐시 처리 필요 및 어드레서블 고려
+        public TMP_FontAsset GetFontByLangauge(SystemLanguage _curLang)
+        {
+            switch(_curLang)
+            {
+                case SystemLanguage.Korean:
+                    return Resources.Load<TMP_FontAsset>("Fonts/NotoSansKR-Medium SDF");
+                case SystemLanguage.Japanese:
+                    return Resources.Load<TMP_FontAsset>("Fonts/NotoSansJP-Medium SDF");
+                case SystemLanguage.English:
+                default:
+                    return Resources.Load<TMP_FontAsset>("Fonts/Roboto-Medium SDF");
+            }
         }
     }
 }
